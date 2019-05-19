@@ -1,0 +1,14 @@
+{
+  "name": "queuegg-electronapp",
+  "version": "1.0.0",
+  "description": "Queue.gg screen sharing application.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/Tryptophan/queuegg-electronapp",
+  "author": "Jacob Greenway",
+  "devDependencies": {
+    "electron": "^5.0.0"
+  }
+}
