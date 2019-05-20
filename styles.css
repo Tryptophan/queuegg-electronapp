@@ -1,0 +1,39 @@
+body {
+  color: white;
+  background-color: #2c3548;
+  font-family: 'Open Sans', sans-serif;
+  padding: 0px 40px 0px 40px;
+  text-align: center;
+}
+
+#description {
+  margin: 80px auto;
+}
+
+#screen-share {
+  width: fit-content;
+  margin: 80px auto;
+  padding: 80px;
+  border-radius: 0.375rem;
+  background-color: #202634;
+}
+
+#screen-share button {
+  background-color: #00abdc;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 0.375rem;
+  color: white;
+}
+
+#screen-share select {
+  margin-right: 10px;
+}
+
+#shareable-link {
+  display: none;
+}
+
+a:link {
+  color: #00abdc;
+}
