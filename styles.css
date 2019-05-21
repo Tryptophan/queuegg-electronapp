@@ -18,6 +18,10 @@ body {
   background-color: #202634;
 }
 
+#screen-share #previews {
+  display: none;
+}
+
 #screen-share button {
   background-color: #00abdc;
   padding: 10px 20px 10px 20px;
@@ -28,6 +32,33 @@ body {
 
 #screen-share select {
   margin-right: 10px;
+}
+
+.preview {
+  width: 140px;
+  margin: 10px;
+  display: inline-block;
+}
+
+#previews img {
+  width: 140px;
+  display: block;
+  align-self: center;
+  border: 5px solid #202634;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+#previews img:hover {
+  border: 5px solid #00abdc;
+}
+
+#previews span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 140px;
+  display: block;
 }
 
 #shareable-link {

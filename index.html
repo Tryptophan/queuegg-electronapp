@@ -10,21 +10,31 @@
 </head>
 
 <body>
-  <p id="description">To start sharing your screen select a resolution and fps. Once you've started sharing send the sharable link for others to join your room.</p>
+  <p id="description">To start sharing your screen select a resolution and fps. Once you've started sharing send the
+    sharable link for others to join your room.</p>
   <div id="screen-share">
-    <!-- Resolution dropdown -->
-    <select>
-      <option value="1080">1080p</option>
-      <option value="720">720p</option>
-      <option value="480">480p</option>
-    </select>
-    <!-- FPS dropdown -->
-    <select>
-      <option value="30">30 fps</option>
-      <option value="24">24 fps</option>
-    </select>
-    <!-- Start sharing button (opens screen share dialog) -->
-    <button>Start Sharing</button>
+    <div id="selection">
+      <!-- Resolution dropdown -->
+      <select>
+        <option value="1080">1080p</option>
+        <option value="720">720p</option>
+        <option value="480">480p</option>
+      </select>
+      <!-- FPS dropdown -->
+      <select>
+        <option value="30">30 fps</option>
+        <option value="24">24 fps</option>
+      </select>
+      <!-- Start sharing button (opens screen share dialog) -->
+      <button id="start-sharing">Start Sharing</button>
+    </div>
+    <!-- This is shown and populated when the user clicks the start sharing button -->
+    <div id="previews">
+      <div>Screens</div>
+      <div id="screens"></div>
+      <div>Windows</div>
+      <div id="windows"></div>
+    </div>
   </div>
 
   <div id="shareable-link">
@@ -33,7 +43,7 @@
 
   <script>
     // You can also require other files to run in this process
-    require('./renderer.js')
+    let renderer = require('./renderer.js')
   </script>
 </body>
 
