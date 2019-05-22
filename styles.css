@@ -90,6 +90,14 @@ button:disabled:hover {
   display: block;
 }
 
+#video-wrapper {
+  display: none;
+}
+
+#video {
+  height: 50vh;
+}
+
 #shareable-link {
   display: none;
 }

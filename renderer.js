@@ -84,12 +84,18 @@ document.getElementById('select-preview').onclick = (event) => {
             chromeMediaSource: 'desktop',
             chromeMediaSourceId: preview.id,
             minHeight: height,
-            minFrameRate: fps
+            maxHeight: height,
+            minFrameRate: fps,
+            maxFrameRate: fps
           }
         }
       }).then(stream => {
+        // Hide the previews dialog
+        document.getElementById('previews').setAttribute('style', 'display: none')
         // Pass the stream from the preview to the video object
-        console.log(stream)
+        let video = document.getElementById('video')
+        video.srcObject = stream
+        document.getElementById('video-wrapper').setAttribute('style', 'display: block')
       })
     }
   }
