@@ -1,10 +1,16 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-const { ipcRenderer, desktopCapturer } = require('electron');
+const { ipcRenderer, desktopCapturer } = require('electron')
+
+// Array of sources to track selection
+let previews = []
 
 // Button listener to start screen sharing
-document.getElementById('start-sharing').addEventListener('click', () => {
+document.getElementById('start-sharing').onclick = () => {
+
+  previews = []
+  document.getElementById('select-preview').disabled = true
 
   // Hide the screen share selection dialog and show the screen previews
   document.getElementById('selection').setAttribute('style', 'display: none')
@@ -22,33 +28,69 @@ document.getElementById('start-sharing').addEventListener('click', () => {
     let screens = document.getElementById('screens')
     let windows = document.getElementById('windows')
     for (const source of sources) {
-      let preview;
+      let preview
+      // Separate out screen and window sources to their own divs
       if (source.id.includes('screen')) {
         preview = screens.appendChild(document.createElement('div'))
       } else {
         preview = windows.appendChild(document.createElement('div'))
       }
+      // Add the preview image to the source
       preview.className = 'preview'
-      preview.appendChild(document.createElement('img')).src = source.thumbnail.toDataURL()
+      let thumbnail = preview.appendChild(document.createElement('img'))
+      thumbnail.src = source.thumbnail.toDataURL()
+      thumbnail.id = source.id
+      // Add the preview to a list to allow for single selection
+      previews.push(thumbnail)
       preview.appendChild(document.createElement('span')).innerHTML = source.name
     }
 
-    // for (const source of sources) {
-    // Render sources in dialog
+    // Set listener for selecting a preview
+    let thumbnails = document.querySelectorAll('.preview img')
+    thumbnails.forEach(thumbnail => {
+      thumbnail.onclick = (event) => {
+        // Highlight the preview image using the selected class style
+        for (const preview of previews) {
+          preview.classList.remove('selected')
+        }
+        event.target.setAttribute('class', 'selected')
 
-    // await navigator.mediaDevices.getUserMedia({
-    //   audio: false,
-    //   video: {
-    //     mandatory: {
-    //       chromeMediaSource: 'desktop',
-    //       chromeMediaSourceId: source.id,
-    //       minWidth: 1280,
-    //       maxWidth: 1280,
-    //       minHeight: 720,
-    //       maxHeight: 720
-    //     }
-    //   }
-    // })
-    // }
+        // Set the select button to enabled
+        document.getElementById('select-preview').disabled = false
+      }
+    })
   })
-})
+}
+
+document.getElementById('select-preview').onclick = (event) => {
+  // Check if the button is disabled (no preview selected), don't start screen sharing if so
+  let select = event.target
+  if (select.disabled) {
+    return
+  }
+
+  // Get the resolution and fps constriants from the dropdowns
+  let height = document.getElementById('resolution').value
+  let fps = document.getElementById('fps').value
+
+  // Loop through the array of previews and check for the preview selected
+  for (const preview of previews) {
+    if (preview.classList.contains('selected')) {
+      // Get the media stream for the preview (screen or window)
+      navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          mandatory: {
+            chromeMediaSource: 'desktop',
+            chromeMediaSourceId: preview.id,
+            minHeight: height,
+            minFrameRate: fps
+          }
+        }
+      }).then(stream => {
+        // Pass the stream from the preview to the video object
+        console.log(stream)
+      })
+    }
+  }
+}

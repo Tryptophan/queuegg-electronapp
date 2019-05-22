@@ -22,12 +22,37 @@ body {
   display: none;
 }
 
-#screen-share button {
+button {
   background-color: #00abdc;
   padding: 10px 20px 10px 20px;
   border: none;
   border-radius: 0.375rem;
   color: white;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: gray;
+}
+
+button:disabled:hover {
+  cursor: not-allowed;
+}
+
+.back-button {
+  /* margin-right: 20px; */
+  background-color: #2c3548;
+}
+
+#preview-buttons {
+  margin-top: 10px;
+}
+
+#preview-buttons button {
+  margin: 10px;
 }
 
 #screen-share select {
@@ -51,6 +76,10 @@ body {
 
 #previews img:hover {
   border: 5px solid #00abdc;
+}
+
+.selected {
+  border: 5px solid #00abdc !important;
 }
 
 #previews span {

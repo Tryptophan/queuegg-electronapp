@@ -15,13 +15,13 @@
   <div id="screen-share">
     <div id="selection">
       <!-- Resolution dropdown -->
-      <select>
+      <select id="resolution">
         <option value="1080">1080p</option>
         <option value="720">720p</option>
         <option value="480">480p</option>
       </select>
       <!-- FPS dropdown -->
-      <select>
+      <select id="fps">
         <option value="30">30 fps</option>
         <option value="24">24 fps</option>
       </select>
@@ -34,6 +34,11 @@
       <div id="screens"></div>
       <div>Windows</div>
       <div id="windows"></div>
+
+      <div id="preview-buttons">
+        <button class="back-button">Back</button>
+        <button id="select-preview" disabled>Select</button>
+      </div>
     </div>
   </div>
 
