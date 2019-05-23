@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -8,7 +8,7 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1360,
+    width: 1366,
     height: 768,
     webPreferences: {
       nodeIntegration: true
@@ -47,9 +47,4 @@ app.on('activate', function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow()
-})
-
-ipcMain.on('start-sharing', () => {
-  // Ask the user for permission to share screen with passed in args
-  
 })
