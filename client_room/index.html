@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Queue.gg Screen Share</title>
+</head>
+
+<body>
+  <video muted></video>
+</body>
+
+<!-- Include socket.io and simple-peer libraries to connect to electron app -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.3.0/simplepeer.min.js"></script> -->
+<script>
+  // Connect to the socket signalling server to establish peer connections
+  let socket = io('http://localhost:3000')
+  socket.on('connect', () => {
+    // Get the room id from the url parameters
+    let pathname = window.location.pathname
+    let room = pathname.substring(pathname.lastIndexOf('/') + 1)
+
+    // Send the message to join the room
+    socket.emit('peer', { room: room })
+  })
+
+</script>
+
+
+</html>
