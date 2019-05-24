@@ -3,12 +3,16 @@
 // All of the Node.js APIs are available in this process.
 const { desktopCapturer } = require('electron')
 const io = require('socket.io-client')
+const Peer = require('simple-peer')
 
 // Socket client TODO: configure to use queue.gg signalling server domain
 const socket = io('http://localhost:3000')
 
 // Array of sources to track selection
 let previews = []
+
+// Map of peers to handle connections
+let peers = new Map()
 
 // Button listener to start screen sharing
 document.getElementById('start-sharing').onclick = () => {
@@ -109,7 +113,45 @@ document.getElementById('select-preview').onclick = (event) => {
   }
 }
 
+// Sent after we start a room, populate the shareable link with the url from the socket event
 socket.on('room', (room) => {
   let link = document.getElementById('shareable-link')
   link.innerHTML = room
+})
+
+// Peer wants to join the room, create a peer object to later connect to them
+socket.on('peer', (payload) => {
+  console.log('Peer wants to join', payload)
+  let id = payload.peer
+  // Add the peer to the peer map for the room
+  let peer = new Peer({
+    // Peer is not the initiator, since the other clients are the ones first connecting to watch the screen share
+    initiator: false,
+    // This is where a turn server would be configured (preferably with creds pulled from an environment file or server so only people with the app or on the site can use it)
+    // There is probably a way to link queue.gg accounts to authenticate a turn server
+    // config: {
+    //   iceServers: [
+    //     {
+    //       urls: 'https://turn.queue.gg',
+    //       username: turnUsername,
+    //       credential: turnPassword
+    //     }
+    //   ]
+    // }
+  })
+
+  // Set up callback to signal the answer to the peer when we get the offer
+  peer.on('signal', (answer) => {
+    socket.emit('answer', { answer: answer, client: id })
+  })
+
+  // Add the peer to the peers map to later use when signalling offers
+  peers.set(id, peer)
+})
+
+// Received an offer from another client that wants to join the room
+// Payload: { offer: ..., client: id }
+socket.on('offer', (payload) => {
+  // Generate a peer with an answer to send back to the other client
+  console.log('Got offer', payload)
 })
