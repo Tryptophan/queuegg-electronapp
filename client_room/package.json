@@ -4,8 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "browserify client.js -o bundle.js",
-    "strart": "node server.js"
+    "start": "browserify client.js -o bundle.js && node server.js"
   },
   "author": "",
   "license": "ISC",
