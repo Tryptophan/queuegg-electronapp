@@ -5,6 +5,9 @@ const { desktopCapturer } = require('electron')
 const io = require('socket.io-client')
 const Peer = require('simple-peer')
 
+// MediaStream that contains screen share we want to send to the browser clients
+let stream = null
+
 // Socket client TODO: configure to use queue.gg signalling server domain
 const socket = io('http://localhost:3000')
 
@@ -97,15 +100,16 @@ document.getElementById('select-preview').onclick = (event) => {
             maxFrameRate: fps
           }
         }
-      }).then(stream => {
+      }).then(mediaStream => {
         // Hide the previews dialog
         document.getElementById('previews').setAttribute('style', 'display: none')
         // Pass the stream from the preview to the video object
         let video = document.getElementById('video')
-        video.srcObject = stream
+        video.srcObject = mediaStream
         document.getElementById('video-wrapper').setAttribute('style', 'display: block')
         // Tell socket server room has been started
         socket.emit('startRoom')
+        stream = mediaStream
         // TODO: Open WebRTC connections
       })
     }
@@ -126,6 +130,7 @@ socket.on('peer', (payload) => {
   let peer = new Peer({
     // Peer is not the initiator, since the other clients are the ones first connecting to watch the screen share
     initiator: false,
+    stream: stream
     // This is where a turn server would be configured (preferably with creds pulled from an environment file or server so only people with the app or on the site can use it)
     // There is probably a way to link queue.gg accounts to authenticate a turn server
     // config: {
@@ -153,4 +158,6 @@ socket.on('peer', (payload) => {
 socket.on('offer', (payload) => {
   // Generate a peer with an answer to send back to the other client
   console.log('Got offer', payload)
+  let peer = peers.get(payload.client)
+  peer.signal(payload.offer)
 })

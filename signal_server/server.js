@@ -6,6 +6,7 @@ io.on('connection', client => {
 
   // Screen share app starts a room
   client.on('startRoom', () => {
+    console.log('Electron app wants to start a room.')
     // Room url is generated using the date
     let room = client.id
     // Set with all the room ids
@@ -43,7 +44,11 @@ io.on('connection', client => {
   // Payload: { offer: ..., room: ... }
   client.on('offer', (payload) => {
     // Get the screen share client from the rooms map
-    let sharer = rooms.get(payload.room)
+    if (!rooms.has(payload.room)) {
+      console.log('Room doesn\'t exist!')
+      return
+    }
+    let sharer = payload.room
     console.log('Client wants to join room started client', sharer)
 
     // Send the offer to the screen sharer with the id of the client sending the offer
@@ -55,6 +60,8 @@ io.on('connection', client => {
   // Payload: { answer: ..., client: ... }
   client.on('answer', (payload) => {
     console.log('Got answer', payload)
+    let id = payload.client
+    client.broadcast.to(id).emit('answer', { answer: payload.answer })
   })
 })
 
