@@ -116,6 +116,21 @@ document.getElementById('select-preview').onclick = (event) => {
   }
 }
 
+// User hit back button after opening previews
+document.getElementById('back-button').onclick = () => {
+  // Hide the previews element
+  let previewsElement = document.getElementById('previews')
+  previewsElement.setAttribute('style', 'display: none')
+  // Remove the previews from their wrapper and the global state
+  previews = []
+  // Get list of all HTML elements with the preview class and remove them
+  document.querySelectorAll('.preview').forEach(el => {
+    el.remove()
+  })
+  // Show the previous display again
+  document.getElementById('selection').setAttribute('style', 'display: block')
+}
+
 // Sent after we start a room, populate the shareable link with the url from the socket event
 socket.on('room', (room) => {
   let link = document.getElementById('shareable-link')

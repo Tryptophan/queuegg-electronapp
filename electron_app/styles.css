@@ -42,7 +42,7 @@ button:disabled:hover {
   cursor: not-allowed;
 }
 
-.back-button {
+#back-button {
   /* margin-right: 20px; */
   background-color: #2c3548;
 }
