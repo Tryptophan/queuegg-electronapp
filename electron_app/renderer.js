@@ -116,18 +116,34 @@ document.getElementById('select-preview').onclick = (event) => {
   }
 }
 
-// User hit back button after opening previews
-document.getElementById('back-button').onclick = () => {
-  // Hide the previews element
-  let previewsElement = document.getElementById('previews')
-  previewsElement.setAttribute('style', 'display: none')
+const clearPreviews = () => {
   // Remove the previews from their wrapper and the global state
   previews = []
   // Get list of all HTML elements with the preview class and remove them
   document.querySelectorAll('.preview').forEach(el => {
     el.remove()
   })
+}
+
+// User hit back button after opening previews
+document.getElementById('back-button').onclick = () => {
+  // Hide the previews element
+  let previewsElement = document.getElementById('previews')
+  previewsElement.setAttribute('style', 'display: none')
+  clearPreviews()
   // Show the previous display again
+  document.getElementById('selection').setAttribute('style', 'display: block')
+}
+
+// User canceled sharing after starting the room, close out peer connections
+document.getElementById('cancel-sharing').onclick = () => {
+  // Hide the video element and remove the source object
+  document.getElementById('video-wrapper').setAttribute('style', 'display: none')
+  document.getElementById('video').srcObject = null
+  // TODO: Close peer connections
+  // Clear previews like in the back button
+  clearPreviews()
+  // Return back to the home screen
   document.getElementById('selection').setAttribute('style', 'display: block')
 }
 

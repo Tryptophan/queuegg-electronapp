@@ -47,6 +47,10 @@ button:disabled:hover {
   background-color: #2c3548;
 }
 
+#cancel-sharing {
+  background-color: red;
+}
+
 #preview-buttons {
   margin-top: 10px;
 }
