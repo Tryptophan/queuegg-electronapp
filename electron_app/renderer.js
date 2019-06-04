@@ -9,7 +9,7 @@ const Peer = require('simple-peer')
 let stream = null
 
 // Socket client TODO: configure to use queue.gg signalling server domain
-const socket = io('http://localhost:3000')
+const socket = io('http://206.189.182.118:3000')
 
 // Array of sources to track selection
 let previews = []
@@ -110,7 +110,6 @@ document.getElementById('select-preview').onclick = (event) => {
         // Tell socket server room has been started
         socket.emit('startRoom')
         stream = mediaStream
-        // TODO: Open WebRTC connections
       })
     }
   }
@@ -140,7 +139,11 @@ document.getElementById('cancel-sharing').onclick = () => {
   // Hide the video element and remove the source object
   document.getElementById('video-wrapper').setAttribute('style', 'display: none')
   document.getElementById('video').srcObject = null
-  // TODO: Close peer connections
+  // Close peer connections
+  peers.forEach(peer => {
+    peer.destroy()
+  })
+  peers = new Map()
   // Clear previews like in the back button
   clearPreviews()
   // Return back to the home screen
