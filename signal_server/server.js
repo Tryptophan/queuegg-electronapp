@@ -20,7 +20,6 @@ io.on('connection', client => {
     client.on('disconnect', () => {
       rooms.delete(room)
       console.log('Rooms', rooms)
-      // TODO: Tell other clients in the room to disconnect
     })
   })
 
