@@ -1,5 +1,5 @@
 {
-  "name": "client_room",
+  "name": "web_server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,7 +11,6 @@
   "dependencies": {
     "express": "^4.17.0",
     "mediastream-to-webm": "^1.0.1",
-    "simple-peer": "^9.3.0",
     "socket.io-client": "^2.2.0"
   },
   "devDependencies": {

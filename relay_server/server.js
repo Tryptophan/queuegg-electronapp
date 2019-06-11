@@ -12,7 +12,7 @@ io.on('connection', client => {
     // Set with all the room ids
     rooms.set(room, [])
     // Send the generated url back to the electron app client
-    client.emit('room', 'https://queue.gg/room/' + room)
+    client.emit('room', 'http://206.189.182.118:8080/room/' + room)
 
     console.log('Rooms', rooms)
 

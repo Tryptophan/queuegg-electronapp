@@ -16,6 +16,6 @@
 NOTE: The signalling server by default runs on port 3000, when hosting this in production it's a good idea to keep this port for the signalling server and proxy port 80/443 connections with something like NGINX
 
 ## Running the web client (only exists for debug purposes)
-* Change directories into ```/client_room/```
+* Change directories into ```/web_server/```
 * Run ```npm install``` to install all dependencies
 * Run ```npm start``` to start the express server that hosts the static page with a socket.io and simple-peer client

@@ -9,7 +9,7 @@ const { EncodedStream } = require('mediastream-to-webm')
 let encodedStream = null
 
 // Socket client TODO: configure to use queue.gg signalling server domain
-const socket = io('http://localhost:3000')
+const socket = io('http://206.189.182.118:3000')
 
 // Array of sources to track selection
 let previews = []

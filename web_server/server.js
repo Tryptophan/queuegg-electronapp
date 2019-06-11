@@ -1,4 +1,4 @@
-// NOTE: This code is only required for testing, index.html is the only real important file in the client_room app
+// NOTE: This code is only required for testing, index.html is the only real important file in the web_server app
 // This express server is to just emulate the route eg. https://queue.gg/room/1234
 const express = require('express')
 const path = require('path')

@@ -9,7 +9,7 @@ const room = pathname.substring(pathname.lastIndexOf('/') + 1)
 
 // Connect to the socket signalling server to establish peer connections
 // TODO: Configure to use queuegg signalling server
-const socket = io('http://localhost:3000')
+const socket = io('http://206.189.182.118:3000')
 socket.on('connect', () => {
   // Send the message to join the room
   socket.emit('join', { room: room })
