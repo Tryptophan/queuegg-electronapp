@@ -26,7 +26,6 @@ document.getElementById('start-sharing').onclick = () => {
 
   // Ask the user permission to share screen (returns MediaStream)
   desktopCapturer.getSources({ types: ['window', 'screen'] }).then(sources => {
-    console.log(sources)
     // Map sources to preview panels
     // HTML will look something like this:
     // <div class="preview">
@@ -70,6 +69,10 @@ document.getElementById('start-sharing').onclick = () => {
   })
 }
 
+const onData = (data) => {
+  socket.emit('data', data)
+}
+
 document.getElementById('select-preview').onclick = (event) => {
   // Check if the button is disabled (no preview selected), don't start screen sharing if so
   let select = event.target
@@ -107,9 +110,7 @@ document.getElementById('select-preview').onclick = (event) => {
         // Tell socket server room has been started
         socket.emit('startRoom')
         encodedStream = new EncodedStream(stream)
-        encodedStream.on('data', (data) => {
-          socket.emit('data', data)
-        })
+        encodedStream.on('data', onData)
       })
     }
   }
@@ -143,6 +144,9 @@ document.getElementById('cancel-sharing').onclick = () => {
   clearPreviews()
   // Return back to the home screen
   document.getElementById('selection').setAttribute('style', 'display: block')
+  // Stop sending chunks to the relay server
+  encodedStream.removeListener('data', onData)
+  encodedStream = null
 }
 
 // Sent after we start a room, populate the shareable link with the url from the socket event
