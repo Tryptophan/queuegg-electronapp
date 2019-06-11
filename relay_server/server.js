@@ -23,7 +23,7 @@ io.on('connection', client => {
     })
   })
 
-  // TODO: Client joined a room
+  // Client joined a room
   client.on('join', (payload) => {
 
     let room = rooms.get(payload.room)
@@ -41,7 +41,7 @@ io.on('connection', client => {
     // Remove the client from the room when they disconnect
     client.on('disconnect', () => {
       room.splice(room.indexOf(client.id), 1)
-      rooms.set(id, room)
+      rooms.set(payload.room, room)
     })
   })
 
